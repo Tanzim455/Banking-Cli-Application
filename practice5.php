@@ -3,57 +3,70 @@
 declare(strict_types=1);
 include 'login.php';
 include 'transactions.php';
-$users = array(
-    array(
-        'name' => 'john Doe', 'email' => 'john@example.com',
-        'password' => '$2y$10$rffG3LTkPt.dJlfJb.oj6OVVUvyVWZqiLV5R47pKXA/felpB1.Kce', 'balance' => 1000, 'accountId' => 'A1234'
-    ),
-    array('name' => 'jane Smith', 'email' => 'jane@example.com', 'password' => 'secret321', 'balance' => 1500, 'accountId' => 'B5678'),
-    array('name' => 'mike Johnson', 'email' => 'mike@example.com', 'password' => 'mikepass', 'balance' => 800, 'accountId' => 'C7890'),
-    array('name' => 'nike Johnson', 'email' => 'mike@example.com', 'password' => 'nike123', 'balance' => 800, 'accountId' => 'D9876'),
-    array('name' => 'nike Johnson', 'email' => 'tanzim@gmail.com', 'password' => 'tanzimpass', 'balance' => 800, 'accountId' => 'E4321')
-);
+
 
 
 // echo password_hash("password123", PASSWORD_DEFAULT);
 // echo password_hash("secret321", PASSWORD_DEFAULT);
-$loginemail = "john@example.com";
+// $loginemail = 'john21@example.com';
 $inputpassword = "secret321";
+$inputemail = 'john21@example.com';
 
-
-//Destructure and getting filtered email 
 
 function filterEmail(array $array, string $email, string $filterBy): array
 {
-    return  array_filter($array, fn ($u) => $u[$filterBy] == $email);
+
+    return array_filter($array, fn ($u) => $u[$filterBy] == $email);
 }
 
-$filtered_email = filterEmail(array: $users, email: $loginemail, filterBy: 'email');
 
-// var_dump($filtered_email);
-$result = login(filtered_email: $filtered_email, inputpassword: $inputpassword);
-['email' => $authuseremail] = $filtered_email[0];
-$balance = viewBalance(filtered_email: $filtered_email);
-
-$option = "Transactions";
-if ($result) {
-
-    if ($option == "ViewBalance") {
-        echo "Your balance is $balance";
+if (isset($users) && count($users) > 0) {
+    $filtered_email = filterEmail(array: $users, email: $inputemail, filterBy: 'email');
+    if (!$filtered_email) {
+        echo "You are not registered here please join before login";
     }
-    if ($option == "Transactions") {
+    $result = login(filtered_email: $filtered_email, inputpassword: $inputpassword);
+    ['email' => $authuseremail] = $filtered_email[0];
+    $balance = viewBalance(filtered_email: $filtered_email);
 
-        $filtered_email_by_transactions = filterEmail(array: $transactions, email: $authuseremail, filterBy: 'from');
+    $option = "Transactions";
+    if ($result) {
+
+        if ($option == "ViewBalance") {
+            echo "Your balance is $balance";
+        }
+        if ($option == "Transactions") {
+
+            if (!isset($transactions)) {
+                echo "There are no transactions here";
+            }
+
+            if (isset($transactions) && count($transactions) > 0) {
+                $filtered_email_by_transactions =
+                    filterEmail(array: $transactions, email: $authuseremail, filterBy: 'from');
+                if ($filtered_email_by_transactions) {
+                    foreach ($filtered_email_by_transactions as $transaction) {
+                        $from = $transaction['from'];
+                        $to = $transaction['to'];
+                        $amount = $transaction['amount'];
 
 
-        foreach ($filtered_email_by_transactions as $transaction) {
-            $from = $transaction['from'];
-            $to = $transaction['to'];
-            $amount = $transaction['amount'];
+                        echo "To: " . $to . "\n";
+                        echo "Balance: $" . $amount . "\n\n";
+                    }
+                }
 
-            echo "To: " . $from . "\n";
-            echo "Type: " . $to . "\n";
-            echo "Balance: $" . $amount . "\n\n";
+                if (!$filtered_email_by_transactions) {
+                    echo "You dont have any transactions here";
+                }
+            }
+        }
+        if ($option == "Withdraw") {
+            $withdrawalamount = 100;
         }
     }
+}
+
+if (!isset($users)) {
+    echo "You are not registered here please register before login";
 }
