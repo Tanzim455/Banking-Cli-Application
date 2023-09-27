@@ -11,6 +11,11 @@
 //         echo "Email does not exist";
 //     }
 // }
+function flattenArray($filtered_email): array
+{
+
+    return array_merge(...$filtered_email);
+}
 function login($filtered_email, $inputpassword)
 {
 
@@ -19,7 +24,7 @@ function login($filtered_email, $inputpassword)
         echo "Your email does not match";
     }
     if ($filtered_email) {
-        ['password' => $password, 'email' => $email] = $filtered_email[0];
+        ['password' => $password, 'email' => $email] = flattenArray(filtered_email: $filtered_email);
         if (password_verify($inputpassword, $password)) {
             return $email;
         }
@@ -50,7 +55,7 @@ function AuthUserEmail($filtered_email, $inputpassword)
 function viewBalance($filtered_email)
 {
     if ($filtered_email) {
-        ['balance' => $balance] = $filtered_email[0];
+        ['balance' => $balance] = flattenArray(filtered_email: $filtered_email);
 
         return $balance;
     }
