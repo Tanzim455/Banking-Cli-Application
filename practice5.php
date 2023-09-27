@@ -81,6 +81,7 @@ if (isset($users) && count($users) > 0) {
             $type = "Withdraw";
             $to = $authuseremail;
             $amount = 500;
+            transactionKeyValues(array: $transactions, to: $to, type: $type, amount: $amount);
             if ($amount > $balance) {
                 echo "The amount is greater than balance";
             }
@@ -104,7 +105,7 @@ if (isset($users) && count($users) > 0) {
             $type = "Deposit";
             $to = $authuseremail;
             $amount = 5000;
-
+            transactionKeyValues(array: $transactions, to: $to, type: $type, amount: $amount);
             if ($amount < 0) {
                 echo "The amount cannot be negative";
             }
