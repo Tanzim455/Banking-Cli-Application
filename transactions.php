@@ -1,10 +1,10 @@
 <?php
 
 $transactions = [
-    ["from" => "john21@example.com", "to" => "email2@example.com", "type" => "deposit", "amount" => 1000.00],
-    ["from" => "john@example.com", "to" => "email3@example.com", "type" => "withdraw", "amount" => 500.00],
-    ["from" => "email4@example.com", "to" => "email1@example.com", "type" => "deposit", "amount" => 1500.00],
-    ["from" => "john21@example.com", "to" => "email25@example.com", "type" => "deposit", "amount" => 1000.00],
+    ["to" => "email2@example.com", "type" => "deposit", "amount" => 1000.00],
+    ["to" => "email3@example.com", "type" => "withdraw", "amount" => 500.00],
+    ["to" => "email1@example.com", "type" => "deposit", "amount" => 1500.00],
+    ["to" => "email25@example.com", "type" => "deposit", "amount" => 1000.00],
 
 ];
 

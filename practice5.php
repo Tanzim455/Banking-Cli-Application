@@ -3,7 +3,7 @@
 declare(strict_types=1);
 include 'login.php';
 include 'transactions.php';
-
+include 'multiarray.php';
 
 
 // echo password_hash("password123", PASSWORD_DEFAULT);
@@ -19,6 +19,15 @@ function filterEmail(array $array, string $email, string $filterBy): array
     return array_filter($array, fn ($u) => $u[$filterBy] == $email);
 }
 
+function transactionKeyValues(string $to, string $type, int $amount, array $array): void
+{
+    $transaction_keys = ['to', 'type', 'amount'];
+    $transaction_values = [$to, $type, $amount];
+    $transaction_array_combine = array_combine($transaction_keys, $transaction_values);
+    array_push($array, $transaction_array_combine);
+    var_dump($array);
+}
+
 
 if (isset($users) && count($users) > 0) {
     $filtered_email = filterEmail(array: $users, email: $inputemail, filterBy: 'email');
@@ -29,7 +38,7 @@ if (isset($users) && count($users) > 0) {
     ['email' => $authuseremail] = $filtered_email[0];
     $balance = viewBalance(filtered_email: $filtered_email);
 
-    $option = "Transactions";
+    $option = "Deposit";
     if ($result) {
 
         if ($option == "ViewBalance") {
@@ -62,7 +71,48 @@ if (isset($users) && count($users) > 0) {
             }
         }
         if ($option == "Withdraw") {
-            $withdrawalamount = 100;
+
+            if (!isset($transactions)) {
+                $transactions = [];
+            }
+            // var_dump($transactions);
+
+
+            $type = "Withdraw";
+            $to = $authuseremail;
+            $amount = 500;
+            if ($amount > $balance) {
+                echo "The amount is greater than balance";
+            }
+            if ($amount < 0) {
+                echo "The amount cannot be negative";
+            }
+
+            if ($amount < $balance) {
+                $calculatetype = '-';
+                var_dump(addOrDeductBalance(array: $users));
+            }
+        }
+        if ($option == "Deposit") {
+
+            if (!isset($transactions)) {
+                $transactions = [];
+            }
+            // var_dump($transactions);
+
+
+            $type = "Deposit";
+            $to = $authuseremail;
+            $amount = 5000;
+
+            if ($amount < 0) {
+                echo "The amount cannot be negative";
+            }
+
+            if ($amount > 0) {
+                $calculatetype = '+';
+                var_dump(addOrDeductBalance(array: $users));
+            }
         }
     }
 }
