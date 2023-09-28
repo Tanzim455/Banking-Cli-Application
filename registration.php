@@ -1,14 +1,14 @@
 <?php
-include 'getRandomString.php';
+// include 'getRandomString.php';
 include 'RegsitrationFormValidation.php';
 include 'Register.php';
-$users = array(
-    array('name' => 'john Doe', 'email' => 'john@example.com', 'password' => 'password123', 'balance' => 1000, 'accountId' => 'A1234'),
-    array('name' => 'jane Smith', 'email' => 'jane@example.com', 'password' => 'secret321', 'balance' => 1500, 'accountId' => 'B5678'),
-    array('name' => 'mike Johnson', 'email' => 'mike@example.com', 'password' => 'mikepass', 'balance' => 800, 'accountId' => 'C7890'),
-    array('name' => 'nike Johnson', 'email' => 'mike@example.com', 'password' => 'nike123', 'balance' => 800, 'accountId' => 'D9876'),
-    array('name' => 'nike Johnson', 'email' => 'tanzim@gmail.com', 'password' => 'tanzimpass', 'balance' => 800, 'accountId' => 'E4321')
-);
+// $users = array(
+//     array('name' => 'john Doe', 'email' => 'john@example.com', 'password' => 'password123', 'balance' => 1000, 'accountId' => 'A1234'),
+//     array('name' => 'jane Smith', 'email' => 'jane@example.com', 'password' => 'secret321', 'balance' => 1500, 'accountId' => 'B5678'),
+//     array('name' => 'mike Johnson', 'email' => 'mike@example.com', 'password' => 'mikepass', 'balance' => 800, 'accountId' => 'C7890'),
+//     array('name' => 'nike Johnson', 'email' => 'mike@example.com', 'password' => 'nike123', 'balance' => 800, 'accountId' => 'D9876'),
+//     array('name' => 'nike Johnson', 'email' => 'tanzim@gmail.com', 'password' => 'tanzimpass', 'balance' => 800, 'accountId' => 'E4321')
+// );
 
 
 
@@ -17,25 +17,20 @@ $users = array(
 $inputemail = "tanzim21@gmail.com";
 $name = "Tanzim Ib";
 $password = "12345678";
-$balance = 0;
-$accountId = getRandomString(6);
-var_dump($accountId);
-if (empty($users)) {
+// $balance = 0;
+// $accountId = getRandomString(6);
+
+if (!isset($users)) {
     //Instantiate an array 
-
-
+    $users = [];
+    RegisterFormValidation(inputemail: $inputemail, password: $password, name: $name);
     register(
         inputemail: $inputemail,
         name: $name,
         password: $password,
-        balance: $balance,
-        accountId: $accountId,
+
         users: $users
     );
-
-
-
-    RegisterFormValidation(inputemail: $inputemail, password: $password, name: $name);
 } else {
     $all_email = array_column($users, 'email');
 
@@ -47,8 +42,8 @@ if (empty($users)) {
             inputemail: $inputemail,
             name: $name,
             password: $password,
-            balance: $balance,
-            accountId: $accountId,
+
+
             users: $users
         );
         RegisterFormValidation(inputemail: $inputemail, password: $password, name: $name);
